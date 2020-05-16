@@ -2,7 +2,11 @@ package com.icicibank.apimgmt.model;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+
 @Component
+@JsonAutoDetect(fieldVisibility = Visibility.ANY)
 public class BreakUp {
 
 	

@@ -2,9 +2,16 @@ package com.icicibank.apimgmt.model;
 
 import java.util.List;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+
 @Component
+//@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS,value = "prototype")
+@JsonAutoDetect(fieldVisibility = Visibility.ANY)
 public class QuarterlyBreakUp {
 
 	private int noOfQuaterlyBreakUps;

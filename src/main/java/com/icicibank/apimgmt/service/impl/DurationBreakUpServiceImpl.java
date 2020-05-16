@@ -11,14 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.annotation.RequestScope;
 
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.icicibank.apimgmt.model.BreakUp;
@@ -35,13 +30,19 @@ public class DurationBreakUpServiceImpl implements DurationBreakUpService {
 	@Value("${date.format}")
 	String dateFormat;
 
-	@Autowired()
+	@Autowired
 	ResponseModel responseModel;
 
 	@Autowired
 	BreakUp breakUpDetails;
 
 	
+	
+	public DurationBreakUpServiceImpl() {
+		logger.info("Bean Created with hashcode "+this.hashCode());
+	}
+
+
 	@Override
 	public String getBreakUpDurations(DurationDetails duration) throws JsonProcessingException {
 
@@ -344,10 +345,6 @@ public class DurationBreakUpServiceImpl implements DurationBreakUpService {
 	}
 
 
-	@Override
-	public String toString() {
-		return "DurationBreakUpServiceImpl [responseModel=" + responseModel.hashCode() + ", breakUpDetails=" + breakUpDetails.hashCode()
-				+ "]";
-	}
+	
 
 }

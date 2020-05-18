@@ -223,7 +223,15 @@ public class DurationBreakUpServiceImpl implements DurationBreakUpService {
 
 							logger.info("startDate " + startDate + " endDate " + endDate
 									+ "yearly>1 and month>apr,monthly in");
-							String monthlyString = startDate.getYear() + "_M0" + startDate.getMonthValue();
+							String monthlyString ="";
+							if(startDate.getMonthValue()<10){
+							
+								monthlyString = startDate.getYear() + "_M0" + startDate.getMonthValue();
+							}else {
+								
+								monthlyString = startDate.getYear() + "_M" + startDate.getMonthValue();
+							}
+							
 							breakUpDetails = new BreakUp(monthlyString);
 							
 							int daysOfMonth = 0;
@@ -299,7 +307,15 @@ public class DurationBreakUpServiceImpl implements DurationBreakUpService {
 
 					// durationDetails.setStartDate(startDate.toString());
 					logger.info("startDate " + startDate + " endDate " + endDate + "yearly<1 and monthly in");
-					String monthlyString = startDate.getYear() + "_M0" + startDate.getMonthValue();
+					String monthlyString = "";
+					if(startDate.getMonthValue()<10){
+						
+						monthlyString = startDate.getYear() + "_M0" + startDate.getMonthValue();
+					}else {
+						
+						monthlyString = startDate.getYear() + "_M" + startDate.getMonthValue();
+					}
+					
 
 					breakUpDetails = new BreakUp(monthlyString);
 					int daysOfMonth = 0;

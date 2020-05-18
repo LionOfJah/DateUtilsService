@@ -58,6 +58,8 @@ public class DurationBreakUpServiceImpl implements DurationBreakUpService {
 		List<BreakUp> monthlyDurations = new ArrayList<>();
 
 		List<BreakUp> quarterlyDurations = new ArrayList<>();
+		
+		String finalResponse ="";
 
 		//logger.info((dateFormat));
 		LocalDate intialDate = LocalDate.parse(duration.getStartDate(), DateTimeFormatter.ofPattern(dateFormat));
@@ -70,9 +72,10 @@ public class DurationBreakUpServiceImpl implements DurationBreakUpService {
 		logger.info("startDate " + startDate + " endDate " + endDate);
 
 		while (startDate.isBefore(endDate) || startDate.isEqual(endDate)) {
-
 			
-			if (period.getYears() >= 1) {
+			logger.info("Period in years "+period.getYears()+" period in months "+period.getMonths()+" Period in days "+period.getDays());
+			
+			if (period.getYears() >= 1  || period.getMonths()>=11 && period.getDays()>=1) {
 
 				if (startDate.getMonth().getValue() == Month.APRIL.getValue()) {
 
@@ -86,7 +89,9 @@ public class DurationBreakUpServiceImpl implements DurationBreakUpService {
 					if (endDate.isBefore(startDate))
 						startDate = endDate;
 					// durationDetails.setEndDate(startDate.toString());
-
+					
+					finalResponse = finalResponse.concat(yearlyStirng).concat(",");
+					
 					yearlyDurations.add(breakUpDetails);
 					responseModel.getYearlyBreakupDetails().setNoOfYearlyBreakUps(++yearlyBreakUp);
 					responseModel.getYearlyBreakupDetails().setListOfDurations(yearlyDurations);
@@ -108,6 +113,7 @@ public class DurationBreakUpServiceImpl implements DurationBreakUpService {
 
 						String quarterlyString = startDate.getYear() + "_Q04";
 
+						finalResponse = finalResponse.concat(quarterlyString).concat(",");
 						breakUpDetails = new BreakUp(quarterlyString);
 						startDate = LocalDate.of(startDate.getYear(), Month.MARCH, Month.MARCH.maxLength());
 
@@ -137,6 +143,7 @@ public class DurationBreakUpServiceImpl implements DurationBreakUpService {
 
 							String monthlyString = startDate.getYear() + "_M0" + startDate.getMonthValue();
 
+							finalResponse = finalResponse.concat(monthlyString).concat(",");
 							breakUpDetails = new BreakUp(monthlyString);
 
 							int daysOfMonth = 0;
@@ -196,6 +203,7 @@ public class DurationBreakUpServiceImpl implements DurationBreakUpService {
 								quarterlyString = startDate.getYear() + "_Q04";
 							}
 
+							finalResponse = finalResponse.concat(quarterlyString).concat(",");
 							breakUpDetails = new BreakUp(quarterlyString);
 							startDate = LocalDate.of(startDate.getYear(), startDate.plusMonths(2).getMonth(),
 									startDate.plusMonths(2).getMonth().maxLength());
@@ -204,6 +212,7 @@ public class DurationBreakUpServiceImpl implements DurationBreakUpService {
 								startDate = endDate;
 							// durationDetails.setEndDate(startDate.toString());
 
+							
 							quarterlyDurations.add(breakUpDetails);
 							responseModel.getQuarterlyBreakupDetails().setNoOfQuaterlyBreakUps(++quarterlyBreakUp);
 							responseModel.getQuarterlyBreakupDetails().setListOfDurations(quarterlyDurations);
@@ -231,6 +240,8 @@ public class DurationBreakUpServiceImpl implements DurationBreakUpService {
 								
 								monthlyString = startDate.getYear() + "_M" + startDate.getMonthValue();
 							}
+							
+							finalResponse = finalResponse.concat(monthlyString).concat(",");
 							
 							breakUpDetails = new BreakUp(monthlyString);
 							
@@ -284,6 +295,7 @@ public class DurationBreakUpServiceImpl implements DurationBreakUpService {
 						quarterlyString = startDate.getYear() + "_Q04";
 					}
 
+					finalResponse = finalResponse.concat(quarterlyString).concat(",");
 					breakUpDetails = new BreakUp(quarterlyString);
 					startDate = LocalDate.of(startDate.getYear(), startDate.plusMonths(2).getMonth(),
 							startDate.plusMonths(2).getMonth().maxLength());
@@ -316,7 +328,7 @@ public class DurationBreakUpServiceImpl implements DurationBreakUpService {
 						monthlyString = startDate.getYear() + "_M" + startDate.getMonthValue();
 					}
 					
-
+					finalResponse = finalResponse.concat(monthlyString).concat(",");
 					breakUpDetails = new BreakUp(monthlyString);
 					int daysOfMonth = 0;
 					if (startDate.getMonth().getValue() == Month.FEBRUARY.getValue()
@@ -354,10 +366,16 @@ public class DurationBreakUpServiceImpl implements DurationBreakUpService {
 		ObjectMapper objMapper = new ObjectMapper();
 
 		String response = objMapper.writerFor(ResponseModel.class).writeValueAsString(responseModel);
+		
+		if(finalResponse.endsWith(",")) {
+			logger.info(finalResponse);
+			finalResponse=finalResponse.substring(0, finalResponse.length()-1);
+			logger.info(finalResponse);
+		}
 
 		logger.info(response);
 
-		return response;
+		return finalResponse;
 	}
 
 

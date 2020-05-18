@@ -23,7 +23,7 @@ public class DurationBreakUpController {
 		
 	String responseModel;
 	
-	@RequestMapping(method=RequestMethod.POST,value = "${app.url}",consumes = "application/json",produces = "application/json")
+	@RequestMapping(method=RequestMethod.POST,value = "${app.url}",consumes = "application/json",produces = "application/text")
 	@ResponseBody
 	public ResponseEntity<String> getDurationBreakupDetails(@RequestBody DurationDetails durationDetails) {
 

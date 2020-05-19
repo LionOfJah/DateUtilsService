@@ -1,68 +1,56 @@
 package com.icicibank.apimgmt.model;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
-
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-@JsonAutoDetect(fieldVisibility = Visibility.ANY)
+@XmlRootElement
 public class ResponseModel {
-
-	@Autowired
-	private YearlyBreakUp yearlyBreakupDetails;
 	
-	@Autowired
-	private QuarterlyBreakUp quarterlyBreakupDetails;
 	
-	@Autowired
-	private MonthlyBreakUp monthlyBreakUpDetails;
+	private String status;
+	
+	
+	private String breakUpDurations;
 
 	public ResponseModel() {
 		
 	}
 
-	public ResponseModel(YearlyBreakUp yearlyBreakupDetails, QuarterlyBreakUp quarterlyBreakupDetails,
-			MonthlyBreakUp monthlyBreakUpDetails) {
+	public ResponseModel(String status, String breakUpDurations) {
 		
-		this.yearlyBreakupDetails = yearlyBreakupDetails;
-		this.quarterlyBreakupDetails = quarterlyBreakupDetails;
-		this.monthlyBreakUpDetails = monthlyBreakUpDetails;
+		this.status = status;
+		this.breakUpDurations = breakUpDurations;
 	}
 
-	public YearlyBreakUp getYearlyBreakupDetails() {
-		return yearlyBreakupDetails;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setYearlyBreakupDetails(YearlyBreakUp yearlyBreakupDetails) {
-		this.yearlyBreakupDetails = yearlyBreakupDetails;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
-	public QuarterlyBreakUp getQuarterlyBreakupDetails() {
-		return quarterlyBreakupDetails;
+	public String getBreakUpDurations() {
+		return breakUpDurations;
 	}
 
-	public void setQuarterlyBreakupDetails(QuarterlyBreakUp quarterlyBreakupDetails) {
-		this.quarterlyBreakupDetails = quarterlyBreakupDetails;
-	}
-
-	public MonthlyBreakUp getMonthlyBreakUpDetails() {
-		return monthlyBreakUpDetails;
-	}
-
-	public void setMonthlyBreakUpDetails(MonthlyBreakUp monthlyBreakUpDetails) {
-		this.monthlyBreakUpDetails = monthlyBreakUpDetails;
+	public void setBreakUpDurations(String breakUpDurations) {
+		this.breakUpDurations = breakUpDurations;
 	}
 
 	@Override
 	public String toString() {
-		return "ResponseModel [yearlyBreakupDetails=" + yearlyBreakupDetails + ", quarterlyBreakupDetails="
-				+ quarterlyBreakupDetails + ", monthlyBreakUpDetails=" + monthlyBreakUpDetails + "]";
+		return "ResponseModel [status=" + status + ", breakUpDurations=" + breakUpDurations + "]";
 	}
-
+	
+	
+	
 	
 }

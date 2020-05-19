@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.icicibank.apimgmt.model.DurationDetails;
+import com.icicibank.apimgmt.model.ResponseModel;
 import com.icicibank.apimgmt.service.DurationBreakUpService;
 
 @RestController
@@ -21,11 +22,13 @@ public class DurationBreakUpController {
 	@Autowired
 	DurationBreakUpService durationBreakUpService;
 		
-	String responseModel;
+	@Autowired
+	ResponseModel responseModel;
 	
-	@RequestMapping(method=RequestMethod.POST,value = "${app.url}",consumes = "application/json",produces = "text/plain")
+	String response;
+	@RequestMapping(method=RequestMethod.POST,value = "${app.url}",consumes = "application/json",produces = "application/xml")
 	@ResponseBody
-	public ResponseEntity<String> getDurationBreakupDetails(@RequestBody DurationDetails durationDetails) {
+	public ResponseEntity<ResponseModel> getDurationBreakupDetails(@RequestBody DurationDetails durationDetails) {
 
 	
 		
@@ -38,11 +41,17 @@ public class DurationBreakUpController {
 		
 			
 			 try {
-				responseModel=durationBreakUpService.getBreakUpDurations(durationDetails);
+				response=durationBreakUpService.getBreakUpDurations(durationDetails);
 			} catch (JsonProcessingException e) {
 				logger.info(e.getMessage());
 			}
-			
+			if(response!=null || !response.isEmpty()) {
+				responseModel.setStatus("success");
+				responseModel.setBreakUpDurations(response);
+			}else {
+				responseModel.setStatus("false");
+				responseModel.setBreakUpDurations(response);
+			}
 		
 			
 			

@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.icicibank.apimgmt.exceptions.InvalidDatePeriod;
 import com.icicibank.apimgmt.model.DurationDetails;
-import com.icicibank.apimgmt.model.ResponseModel;
+import com.icicibank.apimgmt.model.SuccessResponseModel;
 import com.icicibank.apimgmt.service.DurationBreakUpService;
 
 @RestController
@@ -23,12 +24,12 @@ public class DurationBreakUpController {
 	DurationBreakUpService durationBreakUpService;
 		
 	@Autowired
-	ResponseModel responseModel;
+	SuccessResponseModel responseModel;
 	
 	String response;
 	@RequestMapping(method=RequestMethod.POST,value = "${app.url}",consumes = "application/json",produces = "application/xml")
 	@ResponseBody
-	public ResponseEntity<ResponseModel> getDurationBreakupDetails(@RequestBody DurationDetails durationDetails) {
+	public ResponseEntity<SuccessResponseModel> getDurationBreakupDetails(@RequestBody DurationDetails durationDetails) throws JsonProcessingException, InvalidDatePeriod {
 
 	
 		
@@ -40,11 +41,9 @@ public class DurationBreakUpController {
 		//logger.info("durationBreakUpService toString"+durationBreakUpService.toString());
 		
 			
-			 try {
+			 
 				response=durationBreakUpService.getBreakUpDurations(durationDetails);
-			} catch (JsonProcessingException e) {
-				logger.info(e.getMessage());
-			}
+			
 			if(response!=null || !response.isEmpty()) {
 				responseModel.setStatus("success");
 				responseModel.setBreakUpDurations(response);

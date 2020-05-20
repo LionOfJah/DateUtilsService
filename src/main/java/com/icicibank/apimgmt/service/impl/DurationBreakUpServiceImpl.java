@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.icicibank.apimgmt.exceptions.InvalidDatePeriod;
 import com.icicibank.apimgmt.model.DurationDetails;
 import com.icicibank.apimgmt.service.DurationBreakUpService;
 
@@ -26,7 +27,7 @@ public class DurationBreakUpServiceImpl implements DurationBreakUpService {
 
 
 	@Override
-	public String getBreakUpDurations(DurationDetails duration) throws JsonProcessingException {
+	public String getBreakUpDurations(DurationDetails duration) throws JsonProcessingException, InvalidDatePeriod {
 
 		String finalResponse ="";
 
@@ -39,6 +40,10 @@ public class DurationBreakUpServiceImpl implements DurationBreakUpService {
 		Period period = Period.between(startDate, endDate);
 
 		logger.info("startDate " + startDate + " endDate " + endDate);
+		if(startDate.isAfter(endDate)) {
+			
+			throw new InvalidDatePeriod("Start Date Should be less than End Date");
+		}
 
 		while (startDate.isBefore(endDate) || startDate.isEqual(endDate)) {
 			

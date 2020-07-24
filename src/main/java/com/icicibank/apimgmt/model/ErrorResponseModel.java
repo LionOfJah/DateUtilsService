@@ -1,5 +1,6 @@
 package com.icicibank.apimgmt.model;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -10,10 +11,10 @@ import org.springframework.stereotype.Component;
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @XmlRootElement
 public class ErrorResponseModel {
-
-	private String status;
+	
 	
 	private String errorCode;
+	
 	
 	private String errorMessage;
 
@@ -21,20 +22,12 @@ public class ErrorResponseModel {
 		
 	}
 
-	public ErrorResponseModel(String status, String errorCode, String errorMessage) {
+	public ErrorResponseModel( String errorCode, String errorMessage) {
 		
-		this.status = status;
 		this.errorCode = errorCode;
 		this.errorMessage = errorMessage;
 	}
 
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
 	public String getErrorCode() {
 		return errorCode;
@@ -54,7 +47,7 @@ public class ErrorResponseModel {
 
 	@Override
 	public String toString() {
-		return "ErrorResponseModel [status=" + status + ", errorCode=" + errorCode + ", errorMessage=" + errorMessage
+		return "ErrorResponseModel [ errorCode=" + errorCode + ", errorMessage=" + errorMessage
 				+ "]";
 	}
 	
